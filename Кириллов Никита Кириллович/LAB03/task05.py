@@ -36,7 +36,7 @@ def repeat(n):
     return decorator
 
 
-@repeat(3)
+@repeat(10)
 def square(x):
     """Возвести число в квадрат.
     Args:
