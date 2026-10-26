@@ -1,39 +1,35 @@
-'''
-Задание №4 Реализуйте функцию, которая принимает произвольное количество именованных аргументов,
-определяет подаваемые на вход аргументы со значениями, которые являются строками и содержат не менее трёх
-гласных букв, и возвращает словарь с этими аргументами {аргумент: значение}.
-'''
+# !/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-VOWELS = "аеёиоуыэюяaeiouy"
+from functools import reduce
 
-def filter_vowels(**kwargs):
-    result = {}
+def multi_ints(*args) -> int | dict:
+    """
+    Перемножить все целые числа среди аргументов.
+    :param args: произвольные аргументы
+    :return: произведение целых чисел или словарь {аргумент: тип},
+             если целых чисел нет
+    """
+    only_ints = [x for x in args if type(x) is int]
 
-    for key, value in kwargs.items():
-        if type(value) is str:
-            vowels_count = len([char for char in value.lower() if char in VOWELS])
+    if not only_ints:
+        return {arg: type(arg) for arg in args}
 
-            if vowels_count >= 3:
-                result[key] = value
+    product = reduce(lambda acc, x: acc * x, only_ints, 1)
+    return product
 
-    return result
+
+def main() -> None:
+    """
+    Точка входа программы.
+    :return: None
+    """
+    # Значения заданы в коде, а не получены от пользователя
+    user_data = [2, 3, 4.5, "hello", 5, True, -2]
+
+    result = multi_ints(*user_data)
+    print(f"Результат: {result}")
 
 
 if __name__ == '__main__':
-    print("Введите аргументы через запятую в формате: ключ=значение")
-    user_input = input("Ваш ввод: ")
-
-    parsed_dict = {}
-    if user_input.strip():
-        pairs = user_input.split(",")
-        for pair in pairs:
-            if "=" in pair:
-                key, value = pair.split("=", 1)
-                parsed_dict[key.strip()] = value.strip()
-
-    final_result = filter_vowels(**parsed_dict)
-
-    if final_result:
-        print(f"Подходящие аргументы (3+ гласных): {final_result}")
-    else:
-        print("Подходящих аргументов не найдено")
+    main()
