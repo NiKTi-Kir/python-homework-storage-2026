@@ -1,25 +1,37 @@
-'''
-Задание №1 Реализуйте функцию, принимающую список строк и возвращающую новый список,
-в котором остаются только те строки, длина которых больше среднего значения длины
-строки в исходном списке.
-'''
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 DELIMITER = ' '
 
-def long_strings(words):
+def long_strings(words: list[str]) -> list[str]:
+    """
+    Возвращает список строк, длина которых превышает среднюю.
+
+    :param words: исходный список строк
+    :return: отфильтрованный список
+    """
+    if not words:
+        return []
     lengths = [len(word) for word in words]
     average_len = sum(lengths) / len(lengths)
-
     return [word for word in words if len(word) > average_len]
 
 
-if __name__ == '__main__':
+def main() -> None:
+    """
+    Точка входа программы.
+    :return: None
+    """
     user_answer = input("Введите слова через пробел: ").split(DELIMITER)
+    user_answer = [word for word in user_answer if word]
 
     if not user_answer:
         print("Ошибка! Введите список строк!")
-
     else:
         result = long_strings(user_answer)
+        print(f"Список со строками длиннее среднего значения: {result}")
 
-    print(f"Список со строками длиннее среднего значения: {result}")
+
+if __name__ == '__main__':
+    main()
+    
