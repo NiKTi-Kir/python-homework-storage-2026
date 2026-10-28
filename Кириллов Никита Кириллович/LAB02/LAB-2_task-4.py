@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
-from functools import reduce
+VOWELS = "аеёиоуыэюяaeiouy"
 
-def multi_ints(*args) -> int | dict:
+
+def filter_vowels(**kwargs) -> dict:
     """
-    Перемножить все целые числа среди аргументов.
-    :param args: произвольные аргументы
-    :return: произведение целых чисел или словарь {аргумент: тип},
-             если целых чисел нет
+    Фильтрует именованные аргументы, оставляя только те,
+    чьи значения являются строками и содержат не менее трёх гласных букв.
+    :param kwargs: произвольное количество именованных аргументов
+    :return: словарь {аргумент: значение} с подходящими парами
     """
-    only_ints = [x for x in args if type(x) is int]
+    result = {}
 
-    if not only_ints:
-        return {arg: type(arg) for arg in args}
+    for key, value in kwargs.items():
+        if type(value) is str:
+            vowels_count = len([char for char in value.lower() if char in VOWELS])
+            if vowels_count >= 3:
+                result[key] = value
 
-    product = reduce(lambda acc, x: acc * x, only_ints, 1)
-    return product
+    return result
 
 
 def main() -> None:
@@ -24,12 +27,26 @@ def main() -> None:
     Точка входа программы.
     :return: None
     """
-    # Значения заданы в коде, а не получены от пользователя
-    user_data = [2, 3, 4.5, "hello", 5, True, -2]
+    print("Введите аргументы через запятую в формате: ключ=значение")
+    print("Пример: name=Екатерина, city=Москва")
+    user_input = input("Ваш ввод: ")
 
-    result = multi_ints(*user_data)
-    print(f"Результат: {result}")
+    parsed_dict = {}
+    # Разбиваем ввод по запятым
+    pairs = user_input.split(",")
+    for pair in pairs:
+        if "=" in pair:
+            key, value = pair.split("=", 1)
+            parsed_dict[key.strip()] = value.strip()
+
+    final_result = filter_vowels(**parsed_dict)
+
+    if final_result:
+        print(f"Подходящие аргументы (3+ гласных): {final_result}")
+    else:
+        print("Подходящих аргументов не найдено")
 
 
 if __name__ == '__main__':
     main()
+    
