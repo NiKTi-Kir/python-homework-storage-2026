@@ -30,3 +30,4 @@ if __name__ == '__main__':
 
     print(f"Результат (итеративный метод): {fact_iter(num)}")
     print(f"Результат (рекурсивный метод): {fact_recur(num)}")
+    
