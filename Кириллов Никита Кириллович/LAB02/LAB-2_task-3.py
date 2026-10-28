@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from functools import reduce
 
@@ -25,8 +25,17 @@ def main() -> None:
     Точка входа программы.
     :return: None
     """
-    # Значения заданы в коде, а не получены от пользователя
-    user_data = [2, 3, 4.5, "hello", 5, True, -2]
+    user_answer = input("Введите числа и слова через пробел: ").split()
+
+    user_data = []
+    for item in user_answer:
+        try:
+            user_data.append(int(item))
+        except ValueError:
+            try:
+                user_data.append(float(item))
+            except ValueError:
+                user_data.append(item)
 
     result = multi_ints(*user_data)
     print(f"Результат: {result}")
